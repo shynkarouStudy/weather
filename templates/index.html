@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Weather</title>
+    <style>
+        body {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>City Weather</h1>
+    <button onclick="updateWeather()">Update</button>
+    <div id="cities"></div>
+    <script>
+        async function updateWeather() {
+            const response = await fetch('/update');
+            const cities = await response.json();
+            const citiesDiv = document.getElementById('cities');
+            citiesDiv.innerHTML = '';
+            for (const [city, data] of Object.entries(cities)) {
+                const cityDiv = document.createElement('div');
+                cityDiv.textContent = `${city} (${data.country}): ${data.weather} °C`;
+                citiesDiv.appendChild(cityDiv);
+            }
+        }
+    </script>
+</body>
+</html>
